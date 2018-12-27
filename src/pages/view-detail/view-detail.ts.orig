@@ -1,0 +1,177 @@
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { PostDataProvider } from "../../providers/post-data/post-data";
+import { Post } from '../../models/post';
+import { PostManager } from '../../models/postManager';
+import { Comment } from '../../models/comment';
+import { UserDataProvider } from "../../providers/user-data/user-data";
+import { EditPage } from '../edit/edit';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+
+
+
+/**
+ * Generated class for the ViewDetailPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+ const PLACEHOLDER_IMAGE: string = "../../assets/imgs/placeholder.png";
+
+@IonicPage()
+@Component({
+  selector: 'page-view-detail',
+  templateUrl: 'view-detail.html',
+})
+export class ViewDetailPage {
+  private postKey: string;
+  private post: Post;
+  private postList: Post[];
+  private userId: string;
+  private timeCounterInterval: any;
+  private countDownString = "";
+  private commentText: string = "";
+  private commentatorId: string;
+  private commentatorUserName: string;
+  private commentatorAvatar: string = "../../assets/imgs/avatar.jpg";
+  private commentList: Comment[] = [];
+  private camera: any;
+  private image: any;
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private postDataService: PostDataProvider,
+              private userDataService: UserDataProvider) {
+    // get post
+    this.postKey = this.navParams.get("postKey");
+    console.log("nav:", this.postKey);
+    this.post = this.postDataService.getPostByKey(this.postKey);
+<<<<<<< HEAD
+    this.userId = this.userDataService.getUserId();
+=======
+
+    // get post owner id
+    this.userId = this.post.getUserId();
+
+    // get comment list
+>>>>>>> f50446e0587c0f9ad19915815498860740d67272
+    this.postDataService.getCommentObservable().subscribe( commentList => {
+      this.commentList = commentList });
+    this.commentList = this.post.getCommentList();
+
+<<<<<<< HEAD
+=======
+    // retrieve current user's id and username to be commentatorId and commentatorUserName
+>>>>>>> f50446e0587c0f9ad19915815498860740d67272
+    this.commentatorId = this.userDataService.getUserId();
+    console.log('commentatorId:', this.commentatorId);
+    this.commentatorUserName = this.userDataService.getUserName();
+    if (this.commentatorUserName == undefined) {
+      this.commentatorUserName = "Anonymous";
+    }
+    console.log('commentatorUserName:', this.commentatorUserName);
+
+    this.getTimeRest();
+    // console.log('Is comments here?', this.post);
+
+  }
+
+  ngOnInit() {
+    this.getCommentList();
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad ViewDetailPage');
+  }
+
+  ionViewWillLeave() {
+    clearInterval(this.timeCounterInterval);
+  }
+
+  public getTimeRest():any {
+    var r = new Date(Date.parse(this.post.getExpiration())).getTime();
+    this.timeCounterInterval = setInterval(() => {
+      this.countDown(r);
+
+    }, 1000);
+  }
+
+  public countDown(expiration: number):any {
+    var now = new Date().getTime();
+    var distance = expiration - now;
+
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    this.countDownString = hours + "h "
+    + minutes + "m " + seconds + "s ";
+
+    if (distance < 0) {
+      clearInterval(this.timeCounterInterval);
+      this.countDownString = "EXPIRED";
+    }
+  }
+
+  public getCommentList(): void {
+    this.commentList = this.postDataService.getCommentList(this.postKey);
+  }
+
+  public addComment(commentatorId: string,
+                    commentatorUserName: string,
+                    commentatorAvatar: string,
+                    commentText: string) {
+    let timestamp = new Date().toISOString();
+    this.postDataService.addComment(this.postKey,
+                                    this.commentatorId,
+                                    this.commentatorUserName,
+                                    this.commentatorAvatar,
+                                    timestamp,
+                                    this.commentText);
+  }
+
+<<<<<<< HEAD
+  editPost(key:string){
+    this.navCtrl.push(EditPage,{"postKey":key});
+  }
+
+  update() {
+    // this.post.setPostImage(this.image);
+    this.postDataService.updatePost(this.postKey);
+    this.navCtrl.pop();
+  }
+
+  delete(){
+    console.log(this.post);
+    this.postDataService.removePost(this.post);
+    this.navCtrl.pop();
+  }
+
+  private takePic(){
+    console.log('triggered');
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      if (imageData) {
+        // this.post.setPostImage('data:image/jpeg;base64,' + imageData);
+        this.image = 'data:image/jpeg;base64,' + imageData;
+      }
+     }, (err) => {
+      //  this.post.setPostImage(PLACEHOLDER_IMAGE);
+       this.image = PLACEHOLDER_IMAGE;
+       console.log(err);
+     });
+  }
+
+  private clearImage(): void {
+    this.image = "";
+=======
+  public deleteComment(comment: Comment) {
+    this.postDataService.deleteComment(this.postKey, comment);
+>>>>>>> f50446e0587c0f9ad19915815498860740d67272
+  }
+}

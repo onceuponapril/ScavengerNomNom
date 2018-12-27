@@ -1,0 +1,56 @@
+<ion-header>
+    <ion-navbar>
+      <button ion-button clear small float-right (click)="publish()">PUBLISH</button>
+    </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-list no-lines>
+    <ion-item color="light">
+      <ion-label>Title</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" placeholder="Free banh mi!" [(ngModel)]="title"></ion-input>
+    </ion-item>
+    <ion-item color="light">
+      <ion-label>Description</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-textarea placeholder="Vegitarian options available..." [(ngModel)]="description"></ion-textarea>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-label color="dark">
+        <ion-icon ios="locate" md="md-locate"></ion-icon>
+         Location
+      </ion-label>
+      <ion-input [(ngModel)]="autocompleteInput" (input)="updateSearchResults()" (ionFocus)="startSearch()" placeholder="Search for a place"></ion-input>      
+      
+    </ion-item>
+        <ion-item *ngFor="let place of autocompleteItems" class="searchResults" (click)="selectPlace(place)">{{place.description}}</ion-item>
+        <ion-item>
+        <ion-label color="dark">
+           Room Number
+        </ion-label>
+        <ion-input [(ngModel)]="roomNumber" (ionFocus)="endSearch()" placeholder="Room of the building"></ion-input>      
+      
+      </ion-item>
+    </ion-list>
+    <ion-list>
+    <ion-item>
+      <ion-label color="dark">
+        <ion-icon ios="timer" md="md-timer"></ion-icon>
+         Expiration
+      </ion-label>
+      <ion-datetime displayFormat="hh:mm a MM/DD/YYYY" pickerFormat="YYYY-MMM-DDTHH:mm" [min]="minDate" [(ngModel)]="expiration"></ion-datetime>
+    </ion-item>
+    <ion-item (click)="takePic()" no-lines>
+      <ion-icon ios="camera" md="md-camera"></ion-icon>
+         Photo
+    </ion-item> 
+    <ion-item *ngIf="image">
+      <ion-icon name="close" (click)="clearImage()"></ion-icon><br>
+      <img [src]="image"/>
+    </ion-item>
+  </ion-list> 
+</ion-content>

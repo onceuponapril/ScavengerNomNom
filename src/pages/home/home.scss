@@ -1,0 +1,48 @@
+page-home {
+    .options{
+        display: inline-block;
+      }
+    .disabled{
+        color: lightgrey;
+    }
+    .header{
+      background-color:white;
+      display: block;
+    }
+    .content{
+        background-color: #f2ba9d;
+    }
+.toolbar-background{
+  background-color:white;
+}
+
+}
+
+// ion-card-header {
+//     background-color: #f2ba9d;
+// }
+// .card {
+//     background-color:#f2ba9d; // black
+//   }
+
+.my-checkbox {
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+}
+.nav{
+    background-color:#9a7858;
+    margin: 10px 0 0 0;
+}
+.nav-bar{
+  // size:10%;
+}
+.menu-bar{
+  // background-color: #9a7858;
+   background-color:#F68E56;;
+}
+
+#logo{
+height:50px;
+width: auto;
+}

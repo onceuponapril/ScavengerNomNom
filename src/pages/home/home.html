@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-navbar class="nav">
+    <!-- <ion-title> -->
+      <!-- ScavengerNomNom -->
+    <!-- </ion-title> -->
+    <img  id="logo" src= "../../assets/imgs/ourlogo.png" >
+
+    <button ion-button clear small float-right (click)="addPost()">
+      POST
+    </button>
+  </ion-navbar>
+
+  <div class="menu-bar">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-8>
+      <div float-left class="my-checkbox">
+        Sort By
+        <ion-select [(ngModel)]="sortBy" (ionChange)="sortPost()" style="max-width: 90%" interface="popover">
+          <ion-label style="margin-right: 0px" >Sort by</ion-label>
+          <ion-option value="newest">Newest</ion-option>
+          <ion-option value="expiration">Expiration</ion-option>
+          <ion-option value="distance">Distance</ion-option>
+        </ion-select>
+      </div>
+    </ion-col>
+    <ion-col col-4>
+      <div float-right class="my-checkbox">
+        <ion-label>Hide Expired  </ion-label>
+        <ion-checkbox checked = "false" (ionChange)="filterPost($event)"></ion-checkbox>
+      </div>
+    </ion-col>
+    </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-header>
+
+
+<ion-content>
+
+
+  <ion-card  *ngFor="let post of filteredList" (click)="viewPost(post.key)">
+
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="../../assets/imgs/avatar.jpg">
+      </ion-avatar>
+      <h2>{{ post.getPostTitle() }}</h2>
+      <ion-note>{{ post.getUserName() }}</ion-note>
+      <ion-note>{{ post.getExpirationRelative()}}</ion-note>
+
+    </ion-item>
+    <ion-card-content>
+        <p>{{ post.getPostDescription() }}</p>
+    </ion-card-content>
+    <img *ngIf="post.getPostImage()" [src]="post.getPostImage()">
+    <ion-row>
+      <!-- <ion-col>
+        <button ion-button icon-start clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>12 Likes</div>
+        </button>
+      </ion-col> -->
+      <ion-col>
+        <button ion-button icon-start clear small>
+          <ion-icon name="text"></ion-icon>
+          <div>{{ post.getNumOfComments() }} Comments</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-start clear small>
+          <ion-icon name="compass"></ion-icon>
+          <div *ngIf="post.getDistance()">{{ post.getDistance() | number:'1.1-2'}} mi</div>
+        </button>
+      </ion-col>
+      <!-- <div *ngIf="post.userId==this.userId">
+      <ion-col>
+        <button ion-button icon-start clear small (click)=editPost(post.key)>
+          <ion-icon name="switch">Edit</ion-icon>
+        </button>
+        </ion-col>
+      </div> -->
+    </ion-row>
+  </ion-card>
+<!-- </ng-template> -->
+</ion-content>

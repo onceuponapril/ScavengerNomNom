@@ -1,0 +1,97 @@
+<!--
+  Generated template for the ViewDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>view-detail</ion-title>
+  </ion-navbar>
+
+
+
+</ion-header>
+
+
+<ion-content>
+    <ion-card>
+      <div *ngIf="post.userId==this.userId">
+        <button ion-button icon-start clear small (click)=editPost(post.key)>
+          <ion-icon name="switch"></ion-icon>Edit
+        </button>
+      </div>
+
+  <ion-item>
+    <ion-avatar item-start>
+      <img src="../../assets/imgs/avatar.jpg">
+    </ion-avatar>
+    <h2>{{ post.getPostTitle() }}</h2>
+<<<<<<< HEAD
+    <ion-note class="note">Jack Doe</ion-note>
+    <ion-note class="note">{{ post.getPostTimestamp()}}</ion-note>
+=======
+    <ion-note class="note">{{ post.getUserName() }}</ion-note>
+    <ion-note class="note">{{ post.getPostTimestamp()}}</ion-note> 
+>>>>>>> f50446e0587c0f9ad19915815498860740d67272
+  </ion-item>
+
+  <ion-card-content>
+        <p>{{ post.getPostDescription() }}</p>
+        <ion-note>Expire in:</ion-note>
+        <ion-note id="countDown">{{ countDownString }}</ion-note>
+    <ion-label>Location: {{ post.getLocation() }}</ion-label>
+
+
+  </ion-card-content>
+
+  <img *ngIf="post.getPostImage()" [src]="post.getPostImage()">
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-start clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>12 Likes</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-start clear small>
+          <ion-icon name="text"></ion-icon>
+          <div>4 Comments</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-start clear small>
+          <ion-icon name="compass"></ion-icon>
+          <div>0.5 mi</div>
+        </button>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Comments
+    </ion-card-header>
+    <ion-list>
+      <ion-item *ngFor="let comment of commentList" lines>
+        <ion-icon name="close-circle" *ngIf="post.getUserId()==this.userId|| comment.getCommentatorId()==this.userId" (click)="deleteComment(comment)" float-right></ion-icon>
+        <ion-avatar item-start>
+          <img [src]="comment.getCommentatorAvatar()">
+        </ion-avatar>
+        <h2>{{ comment.getCommentatorUserName() }}</h2>
+        <p>{{ comment.getCommentText() }}</p>
+        <ion-note>{{ comment.getCommentTimestamp() }}</ion-note>
+      </ion-item>
+    </ion-list>
+    <ion-item>
+      <ion-textarea placeholder="Leave a comment..." [(ngModel)]="commentText"></ion-textarea>
+    </ion-item>
+    <button ion-button clear small float-right (click)="addComment()">
+      POST
+    </button>
+  </ion-card>
+
+</ion-content>
